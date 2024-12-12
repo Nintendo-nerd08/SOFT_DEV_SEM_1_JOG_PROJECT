@@ -9,75 +9,73 @@ import utilz.LoadSave;
 import static utilz.Constants.UI.Buttons.*;
 
 public class MenuButton {
-	// TODO: create private fields
-	// TODO: int xPos, yPos, rowIndex, index
-	// TODO: xOffsetCenter set to B_WIDTH / 2
-	// TODO: Gamestate called state
-	// TODO: BufferedImage[] imgs
-	// TODO: boolean mouseOver, mousePressed
-	// TODO: Rectangle bounds
+    private int xPos, yPos, rowIndex, index;
+    private int xOffsetCenter = B_WIDTH / 2;
+    private Gamestate state;
+    private BufferedImage[] imgs;
+    private boolean mouseOver, mousePressed;
+    private Rectangle bounds;
 
-	public MenuButton(int xPos, int yPos, int rowIndex, Gamestate state) {
-		// TODO: set this xPos to xPos
-		// TODO: set this yPos to yPos
-		// TODO: set this rowIndex to rowIndex
-		// TODO: set this state to state
-		// TODO: call loadImgs()
-		// TODO: call initBounds()
-	}
+    public MenuButton(int xPos, int yPos, int rowIndex, Gamestate state) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.rowIndex = rowIndex;
+        this.state = state;
+        loadImgs();
+        initBounds();
+    }
 
-	private void initBounds() {
-		// TODO: set bounds to newRectangle(xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT)
-	}
+    private void initBounds() {
+        bounds = new Rectangle(xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT);
 
-	private void loadImgs() {
-		// TODO: set img to new BufferedImage[3];
-		// TODO: create a BufferedImage called temp and set to LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)
-		for (int i = 0; i < imgs.length; i++)
-			imgs[i] = temp.getSubimage(i * B_WIDTH_DEFAULT, rowIndex * B_HEIGHT_DEFAULT, B_WIDTH_DEFAULT, B_HEIGHT_DEFAULT);
-	}
+    }
 
-	public void draw(Graphics g) {
-		// TODO: call g.drawImage passing in
-		// TODO: imgs[index], xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT, null)
+    private void loadImgs() {
+        imgs = new BufferedImage[3];
+        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS);
+        for (int i = 0; i < imgs.length; i++)
+            imgs[i] = temp.getSubimage(i * B_WIDTH_DEFAULT, rowIndex * B_HEIGHT_DEFAULT, B_WIDTH_DEFAULT, B_HEIGHT_DEFAULT);
+    }
 
-	}
+    public void draw(Graphics g) {
+        g.drawImage(imgs[index], xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT, null);
+    }
 
-	public void update() {
-		// TODO: set index to 0
-		// TODO if mouseOver
-		// TODO: set index to 1
-		// TODO: end of if statement
-		// TODO: if mousePressed
-		// TODO: set index to 2
-	}
+    public void update() {
+        index = 0;
+        if (mouseOver)
+            index = 1;
+        if (mousePressed)
+            index = 2;
+    }
 
-	public boolean isMouseOver() {
-		// TODO: return mouseOver
-	}
+    public boolean isMouseOver() {
+        return mouseOver;
+    }
 
-	public void setMouseOver(boolean mouseOver) {
-		// TODO: set this mouseOver to mouseOver
-	}
+    public void setMouseOver(boolean mouseOver) {
+        this.mouseOver = mouseOver;
+    }
 
-	public boolean isMousePressed() {
-		// TODO: return mousePressed
-	}
+    public boolean isMousePressed() {
+        return mousePressed;
+    }
 
-	public void setMousePressed(boolean mousePressed) {
-		// TODO: set this mousePressed to mousePressed
-	}
+    public void setMousePressed(boolean mousePressed) {
+        this.mousePressed = mousePressed;
+    }
 
-	public Rectangle getBounds() {
-		// TODO: return bounds
-	}
+    public Rectangle getBounds() {
+        return bounds;
+    }
 
-	public void applyGamestate() {
-		// TODO: set Gamestate.state to state
-	}
+    public void applyGamestate() {
+        Gamestate.state = state;
+    }
 
-	public void resetBools() {
-		// set mouseOver and mousePressed to false
-	}
+    public void resetBools() {
+        mouseOver = false;
+        mousePressed = false;
+    }
 
 }

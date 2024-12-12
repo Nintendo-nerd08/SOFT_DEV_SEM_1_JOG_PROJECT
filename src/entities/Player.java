@@ -31,7 +31,7 @@ public class Player extends Entity {
     public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
         loadAnimations();
-        // TODO: call initHitbox passing in x, y, (int) (20 * Game.SCALE), (int) (27 * Game.SCALE)
+        initHitbox(x, y, (int) (20 * Game.SCALE), (int) (27 * Game.SCALE));
     }
 
     public void update() {
@@ -41,7 +41,7 @@ public class Player extends Entity {
     }
 
     public void render(Graphics g) {
-        // TODO: call g.drawImage passing in animations[playerAction][aniIndex], (int)(hitbox.x - xDrawOffset), (int)(hitbox.y - YDrawOffset), width, height, null)
+        g.drawImage(animations[playerAction][aniIndex], (int) (hitbox.x - xDrawOffset), (int) (hitbox.y - yDrawOffset), width, height, null);
     }
 
     private void updateAnimationTick() {
@@ -114,9 +114,9 @@ public class Player extends Entity {
             }
         }
 
-        if(inAir){
-            if(CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)){
-                
+        if (inAir) {
+            if (CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
+
             }
         }
 
@@ -136,14 +136,14 @@ public class Player extends Entity {
     }
 
     private void updateXPos(float xSpeed) {
-        // TODO: if CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)
-        xSpeed += hitbox.x;
-        // TODO: }else{
-        hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
+            xSpeed += hitbox.x;
+        } else {
+            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+        }
     }
-
-    private void loadAnimations() {
-        // TODO: create a BufferedImage called img and set to LoadSvae.GetSpriteAtlas(LoadSave.PLAYER_ATLAS)
+    private void loadAnimations () {
+        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
 
         animations = new BufferedImage[9][6];
         for (int row = 0; row < animations.length; row++)
@@ -152,36 +152,58 @@ public class Player extends Entity {
 
     }
 
-    public void loadLvlData(int[][] lvlData) {
+    public void loadLvlData ( int[][] lvlData){
         this.lvlData = lvlData;
-        if (!IsEntityOnFloor(hitbox, lvlData){
+        if (!IsEntityOnFloor(hitbox, lvlData)){
             inAir = true;
         }
     }
 
-    public void resetDirBooleans() {
+    public void resetDirBooleans () {
         left = false;
         right = false;
         up = false;
         down = false;
     }
 
-    public void setAttacking(boolean attacking) {
+    public void setAttacking ( boolean attacking){
         this.attacking = attacking;
     }
 
-    public boolean isLeft() {
+    public boolean isLeft () {
         return left;
     }
 
-    public void setLeft(boolean left) {
+    public void setLeft ( boolean left){
         this.left = left;
     }
 
-    // TODO: repeat for Up, Down, Right for previous 2
+    public boolean isRight () {
+        return right;
+    }
+
+    public void setRight ( boolean right){
+        this.right = right;
+    }
+
+    public boolean isUp () {
+        return up;
+    }
+
+    public void setUp ( boolean up){
+        this.up = up;
+    }
+
+    public boolean isDown () {
+        return left;
+    }
+
+    public void setDown ( boolean down){
+        this.down = down;
+    }
 
 
-    public void setJump(boolean jump) {
+    public void setJump ( boolean jump){
         this.jump = jump;
     }
 
