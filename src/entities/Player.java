@@ -58,22 +58,27 @@ public class Player extends Entity {
 
     private void setAnimation() {
         int startAni = playerAction;
-        if (moving)
+        if (moving) {
             playerAction = RUNNING;
-        else
+        } else {
             playerAction = IDLE;
+        }
+        if (inAir) {
+            if (airSpeed < 0) {
+                playerAction = JUMP;
+            } else {
+                playerAction = FALLING;
+            }
+        }
 
-        // TODO: if inAir
-        // TODO: if airSpeed is less than 0
-        // TODO: set playerAction to JUMP
-        // TODO: else set playerAction to FALLING
-
-
-        if (attacking)
+        if (attacking) {
             playerAction = ATTACK_1;
 
-        if (startAni != playerAction)
+        }
+
+        if (startAni != playerAction) {
             resetAniTick();
+        }
     }
 
     private void resetAniTick() {
@@ -84,54 +89,57 @@ public class Player extends Entity {
     private void updatePos() {
         moving = false;
 
-        // TODO: if jump
-        // TODO: call jump()
-        // TODO: if not left and not right and not inAir
-        // TODO: return
+        if (jump) {
+            jump();
+        }
 
-        // create a float called xSpeed and set to 0
+        if (!left && !right && !inAir) {
+            return;
+        }
 
-        // TODO: if left subtract playerSpeed from xSpeed
-        // TODO: if right add playerSpeed to xSpeed
+        float xSpeed = 0;
+
+        if (left) {
+            playerSpeed -= xSpeed;
+        }
+
+        if (right) {
+            playerSpeed += xSpeed;
+        }
 
 
-        // TODO: if not inAir
-        // TODO: if not IsEntityOnFloor(hitbox, lvlData)
-        // TODO: set inAir to true
+        if (!inAir) {
+            if (!IsEntityOnFloor(hitbox, lvlData)) {
+                inAir = true;
+            }
+        }
+
+        if(inAir){
+            if(CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)){
+                
+            }
+        }
 
 
-        // TODO: if inAir
-        // TODO: if CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)
-        // TODO: add airSpeed to hitbox.y
-        // TODO: add gravity to airSpeed
-        // TODO: updateXPos
-        // TODO: else
-        // TODO: set hitbox.y to GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed)
-        // TODO: if airSpeed is positive
-        // TODO: call resetInAir()
-        // TODO: else
-        // TODO: set airSpeed to fallSpeedAfterCollision
-        // TODO: done with else call updateXPos(xSpeed)
-        // TODO: else (based off of if inAir)
-        // TODO: call updateXPos(xSpeed)
-        // TODO: set moving to true
     }
 
     private void jump() {
-        // TODO: if inAir then return
-        // TODO: set inAir to true
-        // TODO: set airSpeed to jumpSpeed
+        if (inAir)
+            return;
+        inAir = true;
+        airSpeed = jumpSpeed;
     }
 
     private void resetInAir() {
-        // TODO: set inAir to false
-        // TODO: set airSpeed to 0
+        inAir = false;
+        airSpeed = 0;
     }
 
     private void updateXPos(float xSpeed) {
         // TODO: if CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)
-        // TODO: add xSpeed to hitbox.x
-        // TODO: else set hitbox.x to GetEntityXPosNextToWall(hitbox, xSpeed)
+        xSpeed += hitbox.x;
+        // TODO: }else{
+        hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
     }
 
     private void loadAnimations() {
@@ -145,9 +153,10 @@ public class Player extends Entity {
     }
 
     public void loadLvlData(int[][] lvlData) {
-        // TODO: set this lvlData to lvlData
-        // TODO: if not IsEntityOnFloor(hitbox, lvlData)
-        // TODO: set inAir to true
+        this.lvlData = lvlData;
+        if (!IsEntityOnFloor(hitbox, lvlData){
+            inAir = true;
+        }
     }
 
     public void resetDirBooleans() {
@@ -173,7 +182,7 @@ public class Player extends Entity {
 
 
     public void setJump(boolean jump) {
-        // TODO: set this jump to jump.
+        this.jump = jump;
     }
 
 }

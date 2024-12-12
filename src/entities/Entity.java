@@ -7,9 +7,9 @@ import java.awt.geom.Rectangle2D;
 public abstract class Entity {
 
     protected float x, y;
-    // TODO: protected int width
-    //  protected int height
-    // TODO:  protected Rectangle2D.Float named hitbox
+    protected int width;
+    protected int height;
+    protected Rectangle2D.Float hitbox;
 
     public Entity(float x, float y, int width, int height) {
         this.x = x;
@@ -19,12 +19,12 @@ public abstract class Entity {
     }
 
     protected void drawHitbox(Graphics g) {
-        // TODO: set the hitbox color to pink with g.setColor(Color.PINK)
-        // TODO: set the hitbox rectangle with g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height)
+        g.setColor(Color.PINK);
+        g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
     protected void initHitbox(float x, float y, int width, int height) {
-        // TODO: initialize hitbox with hitbox = new Rectangle2D.FLOAT passing in the appropriate parameters.
+         hitbox = new Rectangle2D.Float ((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
     public Rectangle2D.Float getHitbox() {
